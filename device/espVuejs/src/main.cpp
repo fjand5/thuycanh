@@ -4,7 +4,7 @@
 #include "store.h"
 #include "update.h"
 #include "ws.h"
-#include "mqtt.h"
+// #include "mqtt.h"
 #include "system.h"
 #include "timer.h"
 #include "io.h"
@@ -24,7 +24,7 @@ void setup(void) {
   Serial.println("5");
   setupWS();
   Serial.println("6");
-  setupMqtt();
+  // setupMqtt();
   Serial.println("7");
   setupSystem();
   Serial.println("8");
@@ -43,20 +43,20 @@ void setup(void) {
     serializeJson(objData, ret);
     webSocket.broadcastTXT(ret);
   });
-  setOnMqttIncome([](String topic, String msg){
-    Serial.println(topic + ": "+ msg);
-    DynamicJsonDocument doc(512);
-    auto error = deserializeJson(doc, msg);
-    if(error)
-      return;
-    JsonObject objData = doc.as<JsonObject>();
-    String id = objData["id"];
-    if(id.startsWith("schedule"))
-      setValue(id, objData["value"], true);
-    else
-      setValue(id, objData["value"]);
+  // setOnMqttIncome([](String topic, String msg){
+  //   Serial.println(topic + ": "+ msg);
+  //   DynamicJsonDocument doc(512);
+  //   auto error = deserializeJson(doc, msg);
+  //   if(error)
+  //     return;
+  //   JsonObject objData = doc.as<JsonObject>();
+  //   String id = objData["id"];
+  //   if(id.startsWith("schedule"))
+  //     setValue(id, objData["value"], true);
+  //   else
+  //     setValue(id, objData["value"]);
 
-  });
+  // });
   setOnWSTextIncome([](String msg){
     DynamicJsonDocument doc(512);
     auto error = deserializeJson(doc, msg);
@@ -64,16 +64,14 @@ void setup(void) {
       return;
     JsonObject objData = doc.as<JsonObject>();
     String id = objData["id"];
-    if(id.startsWith("schedule"))
-      setValue(id, objData["value"], true);
-    else
-      setValue(id, objData["value"]);
+    setValue(id, objData["value"], true);
   });
 }
 
 void loop(void) {
   loopWebserver();
   loopWS();
-  loopMqtt();
+  // loopMqtt();
   loopTimer();
+  loopIO();
 }

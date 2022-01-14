@@ -3,7 +3,7 @@
 #include <ArduinoJson.h>
 #include "store.h"
 #include "webserver.h"
-#define APID "vocaui"
+#define APID "vocaui-tc"
 #define APPW "12345678"
 void scanWifi();
 void setWifi();
@@ -17,7 +17,7 @@ void setupWifi(void) {
     WiFi.softAP(APID, APPW);
 
   }
-  WiFi.begin(getValue("_ssid"), getValue("_sspw"));
+  WiFi.begin(getValue("_ssid","Vong Cat-Hide"), getValue("_sspw","78787878"));
   Serial.println("");
 
   // Wait for connection

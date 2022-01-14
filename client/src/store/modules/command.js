@@ -1,4 +1,4 @@
-let socket = WebSocket.prototype // 
+let socket = WebSocket.prototype 
 
 const command = {
     state: () => ({
@@ -12,72 +12,57 @@ const command = {
     actions: {
         initCommand: function(context){
             socket = new WebSocket('ws://'+window.location.host+':81');
+            // socket = new WebSocket('ws://192.168.2.102:81');
+
             socket.addEventListener('message', function (event) {
                 context.commit("setData",event.data);
             });
         },
-        onDevice: function(context, id){
+        setOnTimeDay: function(context, time){
             let obj = {
-                id,
-                value: "true"
+                id: "on-time-day",
+                value: time
             }
             return socket.send(JSON.stringify(obj))
         },
-        offDevice: function(context, id){
+        setOffTimeDay: function(context, time){
             let obj = {
-                id,
-                value: "false"
+                id: "off-time-day",
+                value: time
             }
             return socket.send(JSON.stringify(obj))
         },
-        onSchedule: function(context, {id, hour, minute}){
+        setOnTimeNight: function(context, time){
             let obj = {
-                id: "schedule-on-" + id,
-                value: hour + ":"+minute,
+                id: "on-time-night",
+                value: time
             }
             return socket.send(JSON.stringify(obj))
         },
-        offSchedule: function(context, {id, hour, minute}){
+        setOffTimeNight: function(context, time){
             let obj = {
-                id: "schedule-off-" + id,
-                value: hour + ":"+minute,
+                id: "off-time-night",
+                value: time
             }
             return socket.send(JSON.stringify(obj))
-        }
+        },
 
     },
     getters: {
-        getDeviceOn: function(state){
-            let obj = state.data
-            return (id)=>{
-                let key = "schedule-on-" + id
-                let data = obj[key]
-                if (!data)
-                    return undefined
-                let hour = data.split(":")[0]
-                let minute = data.split(":")[1]
-                
-                let time = new Date()
-                time.setHours(hour)
-                time.setMinutes(minute)
-                return time
-            }
+        getOnTimeDay:function(state){
+            return state.data["on-time-day"]
         },
-        getDeviceOff: function(state){
-            let obj = state.data
-            return (id)=>{
-                let key = "schedule-off-" + id
-                let data = obj[key]
-                if (!data)
-                    return undefined
-                let hour = data.split(":")[0]
-                let minute = data.split(":")[1]
-                
-                let time = new Date()
-                time.setHours(hour)
-                time.setMinutes(minute)
-                return time
-            }
+        getOffTimeDay: function(state){
+            return state.data["off-time-day"]
+        },
+        getOnTimeNight: function(state){
+            return state.data["on-time-night"]
+        },
+        getOffTimeNight: function(state){
+            return state.data["off-time-night"]
+        },
+        getSystemTime: function(state){
+            return state.data["__time"]
         },
     }
   }

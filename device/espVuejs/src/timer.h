@@ -28,6 +28,7 @@ void loopTimer() {
   if(timeClient.getMinutes() != lastMinute){
     lastMinute = timeClient.getMinutes();
     for (auto const& item : OnMinutes){
+        setValue("__time", timeClient.getFormattedTime());
         if(item != NULL)
             item(timeClient.getHours(),timeClient.getMinutes());
     }

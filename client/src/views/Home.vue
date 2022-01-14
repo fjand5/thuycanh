@@ -20,9 +20,6 @@
               <el-submenu index="1">
                   <template slot="title">Setting</template>
                   <el-menu-item 
-                  @click="$showMqttSetting"
-                  index="1-1">MQTT</el-menu-item>
-                  <el-menu-item 
                   @click="$store.dispatch('reset')"
                   index="1-1">RESET</el-menu-item>
               

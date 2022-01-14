@@ -38,6 +38,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
             for (size_t i = 0; i < length; i++){
                 data+= (char)payload[i];
             }
+            Serial.println(data);
             for (auto const& item : OnWSTextIncomes){
                 if(item != NULL)
                     item(data);

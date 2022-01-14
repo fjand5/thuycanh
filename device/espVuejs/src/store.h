@@ -88,10 +88,10 @@ void setValue(String key, String val, bool save = false){
   
 }
 
-String getValue(String key){
+String getValue(String key, String def = ""){
   if(checkKey(key))
     return Store[key];
-  return "";
+  return def;
 }
 const char * getValueByCStr(String key){
   unsigned int len = Store[key].length();

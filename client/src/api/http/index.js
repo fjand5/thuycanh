@@ -2,7 +2,7 @@ import axios from 'axios'
 let getUrl = window.location;
 
 const esp8266 = axios.create({
-    // baseURL: 'http://192.168.2.101', 
+    // baseURL: 'http://192.168.2.102', 
     baseUrl : getUrl .protocol + "//" + getUrl.host + "/"
   });
 // Add a request interceptor
